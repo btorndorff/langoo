@@ -8,6 +8,7 @@ import { useActivities } from "@/hooks/useActivities";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import StreakCard from "@/components/streak/StreakCard";
 import CreateActivityButton from "@/components/activities/CreateActivityButton";
+import StartDialogueButton from "@/components/dialogue/StartDialogueButton";
 
 export default function Dashboard() {
   const [date, setDate] = useState<Date>(new Date());
@@ -35,11 +36,14 @@ export default function Dashboard() {
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 Activities for {date?.toDateString()}
-                <CreateActivityButton
-                  userId="borff"
-                  selectedDate={date}
-                  onActivityCreated={refetch}
-                />
+                <div className="flex items-center gap-2">
+                  <StartDialogueButton />
+                  <CreateActivityButton
+                    userId="borff"
+                    selectedDate={date}
+                    onActivityCreated={refetch}
+                  />
+                </div>
               </CardTitle>
             </CardHeader>
             <CardContent>

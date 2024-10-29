@@ -14,12 +14,10 @@ def get_current_streak():
     utc = pytz.UTC
     now = datetime.now(utc)
 
-    # First convert string dates to proper MongoDB dates
     current_app.db.activities.update_many(
         {"date": {"$type": "string"}}, [{"$set": {"date": {"$toDate": "$date"}}}]
     )
 
-    # Get distinct dates of activities, sorted in descending order
     pipeline = [
         {"$match": {"userId": user_id}},
         {
@@ -41,18 +39,14 @@ def get_current_streak():
     if not distinct_dates:
         return jsonify({"streak": 0})
 
-    # Convert to set of date strings for easier lookup
     activity_dates = {date["_id"] for date in distinct_dates}
 
-    # Get today and yesterday's date strings
     today = now.strftime("%Y-%m-%d")
     yesterday = (now - timedelta(days=1)).strftime("%Y-%m-%d")
 
-    # If no activity today or yesterday, streak is 0
     if today not in activity_dates and yesterday not in activity_dates:
         return jsonify({"streak": 0})
 
-    # Start counting from today or yesterday
     current_date = now if today in activity_dates else now - timedelta(days=1)
     streak = 0
 

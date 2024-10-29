@@ -39,7 +39,7 @@ export default function ActivityList({
     : [];
 
   return (
-    <div className="relative pt-2 px-2">
+    <div className="relative pt-2">
       <div className="flex flex-col w-full space-y-4 max-h-[500px] overflow-y-auto">
         {activitiesForDate.map((activity) => (
           <ActivityCard

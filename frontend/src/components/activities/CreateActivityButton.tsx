@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
-import ActivityModal from "@/components/activities/ActivityModal";
+import ActivityModal from "@/components/activities/ActivityModal/ActivityModal";
 
 export default function CreateActivityButton({
   userId,

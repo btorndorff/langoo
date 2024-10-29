@@ -3,4 +3,5 @@ pymongo
 python-dotenv
 flask-cors
 pytz
-
+openai
+pydantic

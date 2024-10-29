@@ -75,3 +75,42 @@ export const fetchCurrentStreak = async (userId: string) => {
   }
   return response.json();
 };
+
+export const generateSuggestions = async (data: {
+  title: string;
+  language: string;
+  category: string;
+  entry: string;
+  userId: string;
+  date: string;
+  activityId?: string;
+}) => {
+  const response = await fetch(`${API_BASE_URL}/suggestions/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || "Failed to generate suggestions");
+  }
+
+  const responseData = await response.json();
+  return {
+    suggestions: responseData.suggestions || [],
+  };
+};
+
+export const fetchSuggestionsForActivity = async (activityId: string) => {
+  const response = await fetch(`${API_BASE_URL}/suggestions/${activityId}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch suggestions");
+  }
+  const data = await response.json();
+  return {
+    suggestions: data.suggestions || [],
+  };
+};
