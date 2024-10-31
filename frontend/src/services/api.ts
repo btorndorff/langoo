@@ -1,7 +1,9 @@
 const API_BASE_URL = "http://127.0.0.1:5000/api";
 
-export const fetchActivities = async (userId: string) => {
-  const response = await fetch(`${API_BASE_URL}/activities?userId=${userId}`);
+export const fetchActivities = async (userId: string, language: string) => {
+  const response = await fetch(
+    `${API_BASE_URL}/activities?userId=${userId}&language=${language}`
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch activities");
   }
@@ -89,9 +91,9 @@ export const deleteActivity = async (activityId: string) => {
   return response.json();
 };
 
-export const fetchCurrentStreak = async (userId: string) => {
+export const fetchCurrentStreak = async (userId: string, language: string) => {
   const response = await fetch(
-    `${API_BASE_URL}/streaks/current?userId=${userId}`
+    `${API_BASE_URL}/streaks/current?userId=${userId}&language=${language}`
   );
   if (!response.ok) {
     throw new Error("Failed to fetch streak");

@@ -29,7 +29,7 @@ export default function Dashboard() {
               />
             </div>
 
-            <StreakCard userId="borff" />
+            <StreakCard />
           </div>
 
           <Card className="md:w-2/3">

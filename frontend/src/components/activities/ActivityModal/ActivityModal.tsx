@@ -20,6 +20,7 @@ import ActivityModalContent from "./ActivityModalContent";
 import ActivityModalSuggestions from "./ActivityModalSuggestions";
 import ActivityModalFooter from "./ActivityModalFooter";
 import ActivityAudioPlayer from "./ActivityAudioPlayer";
+import { useUserSettings } from "@/context/UserSettingsContext";
 
 export default function ActivityModal({
   activity,
@@ -44,6 +45,7 @@ export default function ActivityModal({
   const [audio, setAudio] = useState<File | string | null>(
     activity?.audioUrl ?? null
   );
+  const { language, username } = useUserSettings();
 
   useEffect(() => {
     if (activity) {
@@ -87,9 +89,9 @@ export default function ActivityModal({
       setIsSaving(true);
       const activityData = {
         title: title.trim(),
-        language: "Vietnamese",
+        language: language,
         category: category,
-        userId: "borff",
+        userId: username,
         entry: content.trim(),
         date: selectedDate,
         audioFile: audio instanceof File ? audio : undefined,

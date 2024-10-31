@@ -8,8 +8,11 @@ streak_bp = Blueprint("streaks", __name__)
 @streak_bp.route("/current", methods=["GET"])
 def get_current_streak():
     user_id = request.args.get("userId")
+    language = request.args.get("language")
     if not user_id:
         return jsonify({"error": "userId is required"}), 400
+    if not language:
+        return jsonify({"error": "language is required"}), 400
 
     utc = pytz.UTC
     now = datetime.now(utc)
@@ -19,7 +22,7 @@ def get_current_streak():
     )
 
     pipeline = [
-        {"$match": {"userId": user_id}},
+        {"$match": {"userId": user_id, "language": language}},
         {
             "$addFields": {
                 "dateOnly": {

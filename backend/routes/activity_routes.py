@@ -8,7 +8,10 @@ activity_bp = Blueprint("activities", __name__)
 
 @activity_bp.route("/", methods=["GET"])
 def get_activities():
-    activities = current_app.db.activities.find({"userId": request.args.get("userId")})
+    query = {"userId": request.args.get("userId")}
+    if language := request.args.get("language"):
+        query["language"] = language
+    activities = current_app.db.activities.find(query)
     return jsonify([Activity.from_dict(activity).to_dict() for activity in activities])
 
 

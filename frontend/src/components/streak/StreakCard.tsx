@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { fetchCurrentStreak } from "@/services/api";
+import { useUserSettings } from "@/context/UserSettingsContext";
 
-export default function StreakCard({ userId }: { userId: string }) {
+export default function StreakCard() {
+  const { username, language } = useUserSettings();
   const [streak, setStreak] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadStreak = async () => {
       try {
-        const data = await fetchCurrentStreak(userId);
+        const data = await fetchCurrentStreak(username, language);
         setStreak(data.streak);
       } catch (error) {
         console.error("Failed to load streak:", error);
@@ -19,7 +21,7 @@ export default function StreakCard({ userId }: { userId: string }) {
     };
 
     loadStreak();
-  }, [userId]);
+  }, [username, language]);
 
   return (
     <Card>

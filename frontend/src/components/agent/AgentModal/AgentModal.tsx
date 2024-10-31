@@ -19,6 +19,7 @@ import { SimpleVoiceAssistant } from "./SimpleVoiceAssistant";
 import { ControlBar } from "./ControlBar";
 import { MediaDeviceFailure } from "livekit-client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import { useUserSettings } from "@/context/UserSettingsContext";
 
 export type ConnectionDetails = {
   serverUrl: string;
@@ -32,6 +33,7 @@ export default function AgentModal({
 }: {
   children: React.ReactNode;
 }) {
+  const { language, username } = useUserSettings();
   const [connectionDetails, setConnectionDetails] = useState<
     ConnectionDetails | undefined
   >(undefined);
@@ -43,29 +45,25 @@ export default function AgentModal({
       const url = new URL("/api/connection-details", window.location.origin);
       const response = await fetch(url.toString(), {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          language: "Japanese",
-          username: "Ben",
+          language,
+          username,
           accent: "Tokyo",
-          user_instructions: userInstructions
-            ? userInstructions
-            : "I want to practice free talk.",
+          user_instructions:
+            userInstructions || "I want to practice free talk.",
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch connection details");
-      }
+      if (!response.ok) throw new Error("Failed to fetch connection details");
+
       const data = await response.json();
       setConnectionDetails(data);
     } catch (err) {
       console.error(err);
       alert("Failed to connect to voice assistant");
     }
-  }, [userInstructions]);
+  }, [userInstructions, language, username]);
 
   function onDeviceFailure(error?: MediaDeviceFailure) {
     console.error(error);

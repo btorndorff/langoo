@@ -5,7 +5,7 @@ import {
   DisconnectButton,
 } from "@livekit/components-react";
 import { Button } from "@/components/ui/button";
-import { PhoneOff, Speech } from "lucide-react";
+import { PhoneOff, Speech, Mic, MicOff } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
