@@ -147,11 +147,7 @@ export default function ActivityModal({
   const modalDimensions = () => {
     let tailwindClass = "p-0 flex flex-col";
 
-    if (audio) {
-      tailwindClass += " sm:h-[90vh]";
-    } else {
-      tailwindClass += " sm:h-[80vh]";
-    }
+    tailwindClass += " sm:h-[80vh]";
 
     if (showSuggestions) {
       tailwindClass += " sm:max-w-[75vw]";
