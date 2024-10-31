@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Loader2, Trash2 } from "lucide-react";
+import { Loader2, Trash2, Upload } from "lucide-react";
+import { useRef } from "react";
 
 export default function ActivityModalFooter({
   activity,
@@ -9,15 +10,42 @@ export default function ActivityModalFooter({
   isSaving,
   onDelete,
   onSave,
+  onAudioSelect,
 }: {
   activity?: { _id: string };
   isDeleting: boolean;
   isSaving: boolean;
   onDelete: () => void;
   onSave: () => void;
+  onAudioSelect: (file: File) => void;
 }) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      onAudioSelect(file);
+    }
+  };
+
   return (
-    <div className="flex justify-end items-center space-x-2 p-4 border-t">
+    <div className="flex justify-between items-center space-x-2 p-4 border-t">
+      <Button
+        variant="outline"
+        onClick={() => fileInputRef.current?.click()}
+        className="flex items-center gap-2"
+      >
+        <Upload className="h-4 w-4" />
+        <span>Add Audio</span>
+      </Button>
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileSelect}
+        accept="audio/*"
+        className="hidden"
+      />
+
       <div className="flex space-x-2">
         {activity && (
           <Button

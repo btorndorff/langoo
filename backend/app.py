@@ -10,6 +10,7 @@ from livekit.agents import (
     cli,
 )
 from utils.agent import entrypoint
+from utils.s3_utils import upload_file
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -53,6 +54,13 @@ def create_app():
     @app.route("/", methods=["GET"])
     def home():
         return jsonify({"message": "Welcome to the Langoo API"})
+
+    @app.route("/upload", methods=["POST"])
+    def upload():
+        if request.method == "POST":
+            f = request.files["file"]
+            upload_file(f, app.config["BUCKET"])
+            return jsonify({"message": "File uploaded successfully"})
 
     # Start the agent in a separate thread
     logger.info("Creating agent thread...")

@@ -9,11 +9,17 @@ import {
 } from "@/components/ui/dialog";
 import { Activity, Category } from "@/types/activity";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { createActivity, updateActivity, deleteActivity } from "@/services/api";
+import {
+  createActivity,
+  updateActivity,
+  deleteActivity,
+  deleteActivityAudio,
+} from "@/services/api";
 import ActivityModalHeader from "./ActivityModalHeader";
 import ActivityModalContent from "./ActivityModalContent";
 import ActivityModalSuggestions from "./ActivityModalSuggestions";
 import ActivityModalFooter from "./ActivityModalFooter";
+import ActivityAudioPlayer from "./ActivityAudioPlayer";
 
 export default function ActivityModal({
   activity,
@@ -35,6 +41,9 @@ export default function ActivityModal({
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [audio, setAudio] = useState<File | string | null>(
+    activity?.audioUrl ?? null
+  );
 
   useEffect(() => {
     if (activity) {
@@ -55,9 +64,17 @@ export default function ActivityModal({
       setContent("");
       setTitle("");
       setCategory("Writing");
+      setAudio(null);
     }
     setIsSaving(false);
     setShowSuggestions(false);
+  };
+
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+    if (!open) {
+      handleClose();
+    }
   };
 
   const handleSave = async () => {
@@ -75,6 +92,7 @@ export default function ActivityModal({
         userId: "borff",
         entry: content.trim(),
         date: selectedDate,
+        audioFile: audio instanceof File ? audio : undefined,
       };
 
       if (activity) {
@@ -115,17 +133,44 @@ export default function ActivityModal({
     }
   };
 
+  const handleAudioSelect = (file: File) => {
+    setAudio(file);
+  };
+
+  const handleAudioRemove = () => {
+    setAudio(null);
+    if (activity?.audioUrl) {
+      deleteActivityAudio(activity._id);
+    }
+  };
+
+  const modalDimensions = () => {
+    let tailwindClass = "p-0 flex flex-col";
+
+    if (audio) {
+      tailwindClass += " sm:h-[90vh]";
+    } else {
+      tailwindClass += " sm:h-[80vh]";
+    }
+
+    if (showSuggestions) {
+      tailwindClass += " sm:max-w-[75vw]";
+    } else {
+      tailwindClass += " sm:max-w-[55vw]";
+    }
+
+    return tailwindClass;
+  };
+
+  console.log(audio);
+
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <VisuallyHidden.Root>
         <DialogTitle>Activity</DialogTitle>
       </VisuallyHidden.Root>
-      <DialogContent
-        className={`sm:h-[75vh] p-0 flex flex-col ${
-          showSuggestions ? "sm:max-w-[75vw]" : "sm:max-w-[50vw] "
-        }`}
-      >
+      <DialogContent className={modalDimensions()}>
         <div className="flex-grow flex relative">
           <div className="flex-grow flex flex-col p-8">
             <ActivityModalHeader
@@ -142,6 +187,14 @@ export default function ActivityModal({
               }}
               onCategoryClick={() => setIsEditingCategory(true)}
             />
+            {audio && (
+              <ActivityAudioPlayer
+                audioUrl={
+                  audio instanceof File ? URL.createObjectURL(audio) : audio
+                }
+                onRemove={handleAudioRemove}
+              />
+            )}
             <div className="flex flex-grow">
               <ActivityModalContent
                 content={content}
@@ -170,6 +223,7 @@ export default function ActivityModal({
           isSaving={isSaving}
           onDelete={handleDelete}
           onSave={handleSave}
+          onAudioSelect={handleAudioSelect}
         />
       </DialogContent>
     </Dialog>

@@ -15,13 +15,24 @@ export const createActivity = async (activity: {
   userId: string;
   entry: string;
   date: Date;
+  audioFile?: File;
 }) => {
+  const formData = new FormData();
+
+  formData.append("title", activity.title);
+  formData.append("language", activity.language);
+  formData.append("category", activity.category);
+  formData.append("userId", activity.userId);
+  formData.append("entry", activity.entry);
+  formData.append("date", activity.date.toISOString());
+
+  if (activity.audioFile) {
+    formData.append("audioFile", activity.audioFile);
+  }
+
   const response = await fetch(`${API_BASE_URL}/activities`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(activity),
+    body: formData,
   });
   if (!response.ok) {
     throw new Error("Failed to create activity");
@@ -38,14 +49,26 @@ export const updateActivity = async (
     userId: string;
     entry: string;
     date: Date;
+    audioFile?: File;
+    audioUrl?: string;
   }
 ) => {
+  const formData = new FormData();
+
+  formData.append("title", activity.title);
+  formData.append("language", activity.language);
+  formData.append("category", activity.category);
+  formData.append("userId", activity.userId);
+  formData.append("entry", activity.entry);
+  formData.append("date", activity.date.toISOString());
+
+  if (activity.audioFile) {
+    formData.append("audioFile", activity.audioFile);
+  }
+
   const response = await fetch(`${API_BASE_URL}/activities/${activityId}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(activity),
+    body: formData,
   });
   if (!response.ok) {
     throw new Error("Failed to update activity");
@@ -113,4 +136,17 @@ export const fetchSuggestionsForActivity = async (activityId: string) => {
   return {
     suggestions: data.suggestions || [],
   };
+};
+
+export const deleteActivityAudio = async (activityId: string) => {
+  const response = await fetch(
+    `${API_BASE_URL}/activities/${activityId}/audio`,
+    {
+      method: "DELETE",
+    }
+  );
+  if (!response.ok) {
+    throw new Error("Failed to delete activity audio");
+  }
+  return response.json();
 };

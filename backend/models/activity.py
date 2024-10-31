@@ -3,7 +3,7 @@ from .mongo_document import MongoDocument
 
 
 class Activity(MongoDocument):
-    def __init__(self, title, language, category, user_id, entry, date):
+    def __init__(self, title, language, category, user_id, entry, date, audio_url):
         super().__init__()
         self.title = title
         self.language = language
@@ -11,6 +11,7 @@ class Activity(MongoDocument):
         self.user_id = user_id
         self.entry = entry
         self.date = date
+        self.audio_url = audio_url
 
     def to_dict(self):
         base_dict = super().to_dict()
@@ -21,6 +22,7 @@ class Activity(MongoDocument):
             "userId": self.user_id,
             "entry": self.entry,
             "date": self.date,
+            "audioUrl": self.audio_url,
         }
         return {**base_dict, **activity_dict}
 
@@ -33,6 +35,7 @@ class Activity(MongoDocument):
             user_id=data.get("userId"),
             entry=data.get("entry"),
             date=data.get("date"),
+            audio_url=data.get("audioUrl"),
         )
 
         if "_id" in data:

@@ -1,19 +1,14 @@
-export type Category =
-  | "Writing"
-  | "Journal"
-  | "Reflection"
-  | "Reading"
-  | "Listening"
-  | "Speaking";
-
-export const ActivityCategories: Category[] = [
+export const ActivityCategories = [
   "Writing",
   "Journal",
   "Reflection",
   "Reading",
   "Listening",
   "Speaking",
-];
+  "Lesson",
+] as const;
+
+export type Category = (typeof ActivityCategories)[number];
 
 export type Activity = {
   _id: string;
@@ -23,6 +18,7 @@ export type Activity = {
   userId: string;
   entry: string;
   date: Date;
+  audioUrl?: string;
   createdAt: string;
   updatedAt: string;
 };

@@ -30,8 +30,8 @@ export default function ActivityModalHeader({
   onCategoryClick: () => void;
 }) {
   return (
-    <div className="flex items-center mb-4">
-      <div className="flex items-center">
+    <div className="flex items-center mb-4 w-full">
+      <div className="flex items-center w-full">
         <Popover open={isEditingCategory} onOpenChange={setIsEditingCategory}>
           <PopoverTrigger asChild>
             <Badge
@@ -60,7 +60,7 @@ export default function ActivityModalHeader({
             type="text"
             value={title}
             onChange={onTitleChange}
-            className="text-xl font-semibold bg-transparent border-none focus:outline-none flex-grow mr-2"
+            className="text-xl font-semibold bg-transparent border-none focus:outline-none flex-grow mr-2 w-full"
             autoFocus
             placeholder="Title"
           />
