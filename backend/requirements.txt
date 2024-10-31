@@ -5,3 +5,6 @@ flask-cors
 pytz
 openai
 pydantic
+livekit >= 0.17.1
+livekit-agents~=0.10.1
+livekit-plugins-openai~=0.10.3

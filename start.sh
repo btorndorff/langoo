@@ -20,6 +20,7 @@ echo -e "${BLUE}Starting Backend Server...${NC}"
 cd backend
 source venv/bin/activate 2>/dev/null || source .venv/bin/activate 2>/dev/null || echo "No virtual environment found"
 python3 app.py &
+python3 run_agent.py dev &
 
 # Start frontend
 echo -e "${GREEN}Starting Frontend Server...${NC}"

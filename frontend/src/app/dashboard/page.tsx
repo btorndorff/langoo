@@ -8,7 +8,7 @@ import { useActivities } from "@/hooks/useActivities";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import StreakCard from "@/components/streak/StreakCard";
 import CreateActivityButton from "@/components/activities/CreateActivityButton";
-import StartDialogueButton from "@/components/dialogue/StartDialogueButton";
+import StartAgentButton from "@/components/agent/StartAgentButton";
 
 export default function Dashboard() {
   const [date, setDate] = useState<Date>(new Date());
@@ -37,7 +37,7 @@ export default function Dashboard() {
               <CardTitle className="flex items-center justify-between">
                 Activities for {date?.toDateString()}
                 <div className="flex items-center gap-2">
-                  <StartDialogueButton />
+                  <StartAgentButton />
                   <CreateActivityButton
                     userId="borff"
                     selectedDate={date}
