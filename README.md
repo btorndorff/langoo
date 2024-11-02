@@ -7,7 +7,7 @@
 ## 🌟 **Current Features**
 
 - **Activity Logging**  
-  Track any writing practice, journaling, or reflection activities. Activities can be tagged for easy organization and revisiting.
+  Track any practice with support for text and audio. Activities can be tagged for easy organization and revisiting.
 
 - **AI-Generated Writing Suggestions**  
   Receive instant, AI-driven writing suggestions tailored to your activity.
@@ -15,15 +15,15 @@
 - **Streak Tracking**  
   Stay motivated and accountable with streak tracking, encouraging daily practice to build consistency.
 
+- **Conversation Practice**
+  Powered by OpenAI's realtime API this feature allows you to define a conversation topic and have a live conversation
+
 ---
 
 ## 🚀 **Planned Features**
 
 - **Flashcard Generation**  
   Automatically generate flashcards from text or audio ([see repository](https://github.com/btorndorff/lang-card))
-
-- **Real-Time Conversation Practice**  
-  Practice conversational skills powered by a Open AI's Realtime API.
 
 - **Goal Setting & Learning Plan Generation**  
   Define personalized language goals and generate structured learning plans to stay on track.
