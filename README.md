@@ -1,3 +1,5 @@
+**NOTE: I stopped working on this one and started creating langoo v2, a platform for language learning oriented around a language tutor AI agent**
+
 # Langoo
 
 **Langoo** is a personal language learning dashboard designed to be an (almost) all-in-one platform to support every step of your language journey. 
